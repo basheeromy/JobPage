@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    image: django_api
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./app:/app
+      - dev-static-data:/vol/web
+    command: >
+      sh -c "python3 manage.py wait_for_db &&
+             python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8001"
+    environment:
+      - DB_HOST=db1
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=devtest
+    depends_on:
+      - db1
+
+  db1:
+    restart: always
+    image: postgis/postgis:16-3.4
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=devtest
+
+volumes:
+  dev-db-data:
+  dev-static-data:
+
+
