@@ -108,7 +108,7 @@ class Job(models.Model):
 
     def save(self, *args, **kwargs):
         # Over ride the save method.
-        
+
         g = geocoder.mapquest(
             self.address,
             key=os.environ.get('GEOCODER_API')
@@ -121,3 +121,6 @@ class Job(models.Model):
 
         self.point = Point(lng, lat)
         super(Job, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
