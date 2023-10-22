@@ -10,3 +10,11 @@ django-environ>=0.10.0,<0.11
 Pillow>=10.0.0,<10.1
 GDAL==3.4.1
 geos==0.2.3
+boto3==1.28.68
+django-filter==23.3
+django-storages==1.14.2
+geocoder==1.38.1
+gunicorn==21.2.0
+whitenoise==6.6.0
+dj-database-url==2.1.0
+tzdata==2023.3

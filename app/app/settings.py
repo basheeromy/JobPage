@@ -29,8 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = env('DEBUG')
 ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
@@ -45,13 +44,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.gis',
+
+    'django.contrib.gis',
+
     'rest_framework',
     'drf_spectacular',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+
     'corsheaders',
+    'storages',
+    'django_filters',
+
     'core',
+    'job'
 ]
 
 MIDDLEWARE = [
@@ -202,3 +208,5 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
 
+# GDAL_LIBRARY_PATH = env('GDAL_LIBRARY_PATH')
+# GEOS_LIBRARY_PATH = env('GEOS_LIBRARY_PATH')
