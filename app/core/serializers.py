@@ -8,9 +8,11 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    resume = serializers.CharField(source='userprofile.resume')
     class Meta:
         model = get_user_model()
-        fields = ['id','first_name','last_name','email', 'mobile', 'password']
+        fields = ['id','first_name','last_name','email', 'mobile','resume', 'password']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
     def create(self, validated_data):
