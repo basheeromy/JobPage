@@ -1,7 +1,7 @@
 from datetime import *
 from django.db import models
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models as gismodels
 from django.contrib.gis.geos import Point
 
@@ -100,7 +100,7 @@ class Job(models.Model):
     point = gismodels.PointField(default=Point(0.0, 0.0))
     lastDate = models.DateTimeField(default=return_date_time)
     user = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.SET_NULL,
         null=True
     )
