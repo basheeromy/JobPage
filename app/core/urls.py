@@ -11,12 +11,15 @@ from rest_framework_simplejwt.views import (
 from .views import (
     CreatUserView,
     GenerateTokenView,
-    ManageUserView
+    ManageUserView,
+    ResumeView
 )
 
 urlpatterns = [
     path('', CreatUserView.as_view(), name='create'),
     path('manage/', ManageUserView.as_view(), name="update"),
     path('token/', GenerateTokenView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('resume/', ResumeView.as_view(), name='upload_resume'),
+    # path('resume/', ManageResumeView.as_view(), name='manage_resume')
 ]

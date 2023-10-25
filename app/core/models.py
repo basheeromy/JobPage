@@ -68,14 +68,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.email}"
 
 
+
 class UserProfile(models.Model):
     """
     User profile model.
     """
-    
+
     user = models.OneToOneField(
         User,
         related_name='userprofile',
         on_delete=models.CASCADE
     )
-    resume = models.FileField(null=True)
+    resume = models.FileField(upload_to = 'uploads/resume/', null=True)
