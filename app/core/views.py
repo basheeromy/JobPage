@@ -71,24 +71,27 @@ class ResumeView(APIView):
     serializer_class = UploadResumeSerializer
     queryset = UserProfile.objects.all()
 
+
     def post(self,request):
         """
         Create new instance or edit excisting.
         """
-        user = request.user
-        resume = request.data['resume']
-        profile = UserProfile.objects.filter(user=user).first()
-        if profile:
-            profile.resume = resume
-            profile.save()
-        else:
-            profile = UserProfile(
-                user = user,
-                resume = resume
-            )
-            profile.save()
-
-        return Response(status=status.HTTP_201_CREATED)
+        serializer = UploadResumeSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = request.user
+            resume = request.data['resume']
+            profile = UserProfile.objects.filter(user=user).first()
+            if profile:
+                profile.resume = resume
+                profile.save()
+            else:
+                profile = UserProfile(
+                    user = user,
+                    resume = resume
+                )
+                profile.save()
+                
+            return Response(status=status.HTTP_201_CREATED)
 
     def delete(self,request):
         """

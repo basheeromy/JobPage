@@ -66,3 +66,11 @@ class UploadResumeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('resume',)
+
+    def validate_resume(self, file):
+        """
+            validate input data.
+        """
+        if file.content_type == "application/pdf":
+            return file
+        raise serializers.ValidationError("Invalid input.")
