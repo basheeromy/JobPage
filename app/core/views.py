@@ -8,6 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     ListCreateAPIView,
+    ListAPIView,
     CreateAPIView,
     DestroyAPIView,
     GenericAPIView
@@ -22,7 +23,8 @@ from .serializers import (
     GenerateTokenSerializer,
     UploadResumeSerializer
     )
-
+from job.serializers import JobApplicationSerializer
+from job.models import CandidateApplied
 from .models import UserProfile
 from django.contrib.auth import get_user_model
 
@@ -90,7 +92,7 @@ class ResumeView(APIView):
                     resume = resume
                 )
                 profile.save()
-                
+
             return Response(status=status.HTTP_201_CREATED)
 
     def delete(self,request):
@@ -103,3 +105,18 @@ class ResumeView(APIView):
         )
         obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class AppliedJobListView(ListAPIView):
+    """
+        get the list of jobs a user applied.
+    """
+    serializer_class = JobApplicationSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        queryset = CandidateApplied.objects.filter(user=user_id)
+        return queryset
