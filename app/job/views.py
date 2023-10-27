@@ -19,7 +19,8 @@ from rest_framework import permissions
 
 from permissions import custom_permissions
 from .serializers import (
-    JobSerializer
+    JobSerializer,
+    JobApplicationSerializer
 )
 from .models import (
     Job,
@@ -156,12 +157,40 @@ class ApplyJobView(APIView):
             },
             status=status.HTTP_201_CREATED
         )
-        
+
+
+class CandidatesAppliedListView(APIView):
+    """
+        List of candidates applied for a
+        particular job.
+    """
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+
+    def get(self, request, id):
+        obj = get_object_or_404(Job, id=id)
+        if obj.user != request.user:
+            return Response(
+                {
+                 'error':
+                     'You can not acces this job'
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
+        candidates = obj.candidateapplied_set.all()
+        serializer = JobApplicationSerializer(candidates, many=True)
+
+        return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def isApplied(request, id):
-
+    """
+        Check a user applied for a job or not.
+        this function returns a boolean.
+    """
     user = request.user
     job = get_object_or_404(Job, id=id)
 

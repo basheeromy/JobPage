@@ -12,7 +12,7 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class JobApplicationSerializer(serializers.ModelSerializer):
-    job = JobSerializer
+    job = JobSerializer()
 
     class Meta:
         model = CandidateApplied

@@ -3,6 +3,7 @@ from .views import (
     ListCreateJobView,
     ManageJobView,
     ApplyJobView,
+    CandidatesAppliedListView,
     getTopicStats,
     isApplied
 )
@@ -13,4 +14,5 @@ urlpatterns = [
     path('stats/<str:topic>/', getTopicStats, name='get_topic_stats'),
     path('jobs/<int:id>/apply/', ApplyJobView.as_view(), name='apply_for_job'),
     path('jobs/<int:id>/check/', isApplied, name='is_applied_to_job'),
+    path('jobs/<int:id>/candidates', CandidatesAppliedListView.as_view(), name='candidates_applied_for_this_job')
 ]
