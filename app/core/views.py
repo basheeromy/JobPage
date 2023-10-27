@@ -23,8 +23,14 @@ from .serializers import (
     GenerateTokenSerializer,
     UploadResumeSerializer
     )
-from job.serializers import JobApplicationSerializer
-from job.models import CandidateApplied
+from job.serializers import (
+    JobApplicationSerializer,
+    JobSerializer
+)
+from job.models import (
+    CandidateApplied,
+    Job
+)
 from .models import UserProfile
 from django.contrib.auth import get_user_model
 
@@ -119,4 +125,18 @@ class AppliedJobListView(ListAPIView):
     def get_queryset(self):
         user_id = self.request.user.id
         queryset = CandidateApplied.objects.filter(user=user_id)
+        return queryset
+
+
+class JobListView(ListAPIView):
+    """
+        get the list of jobs a user created.
+    """
+    serializer_class = JobSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        queryset = Job.objects.filter(user=user_id)
         return queryset

@@ -8,11 +8,11 @@ from django.utils import timezone
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
-    CreateAPIView
+    ListAPIView,
 )
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
@@ -156,3 +156,15 @@ class ApplyJobView(APIView):
             },
             status=status.HTTP_201_CREATED
         )
+        
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def isApplied(request, id):
+
+    user = request.user
+    job = get_object_or_404(Job, id=id)
+
+    applied = job.candidateapplied_set.filter(user=user).exists()
+
+    return Response(applied)
