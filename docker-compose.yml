@@ -35,6 +35,19 @@ services:
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=devtest
 
+  nextjs:
+    restart: always
+    image: next-js-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.next
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    command: >
+      sh -c "yarn dev"
+
 volumes:
   dev-db-data:
   dev-static-data:
