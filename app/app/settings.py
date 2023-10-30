@@ -32,6 +32,9 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    'localhost',
+    '192.168.1.6',
+    'app'
 ]
 
 
@@ -206,7 +209,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
-    'http://localhost:3000',
+    'http://localhost:3000'
 ]
 
 SPECTACULAR_SETTINGS = {
