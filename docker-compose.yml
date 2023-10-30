@@ -47,6 +47,8 @@ services:
       - ./frontend:/app
     command: >
       sh -c "yarn dev"
+    depends_on:
+      - app
 
 volumes:
   dev-db-data:
