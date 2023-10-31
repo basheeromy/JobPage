@@ -74,6 +74,17 @@ class ManageJobView(RetrieveUpdateDestroyAPIView):
         )
         return obj
 
+    def get(self, request, *args, **kwargs):
+        """
+        Over ride get method to add additional data
+        with response.
+        """
+        job = self.get_object()
+        number_of_candidates = job.candidateapplied_set.all().count()
+        job = self.serializer_class(job).data
+
+        return Response({'job': job, 'candidates': number_of_candidates})
+
     def perform_authentication(self, request):
         """
         Customized authentication system.
