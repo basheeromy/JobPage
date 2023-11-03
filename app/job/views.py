@@ -6,8 +6,6 @@ from django.db.models import Min, Max, Avg, Count
 from django.utils import timezone
 from django.contrib.auth.models import AnonymousUser
 
-from django.db import connection # for test
-
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -226,38 +224,3 @@ def isApplied(request, id):
     applied = job.candidateapplied_set.filter(user=user).exists()
 
     return Response(applied)
-
-
-# @api_view(['GET'])
-# def testView(request):
-#     """
-#     this is a test function to use raw sql query
-#     instead of django ORM.
-#     """
-
-#     query = "SELECT * FROM job_job WHERE salary > %s"
-#     limit = 2000
-#     results = Job.objects.raw(query, [limit])
-#     for i in results:
-#         print(i)
-
-#     return Response("this works.")
-
-# @api_view(['GET'])
-# def testView(request):
-#     """
-#     this is a test function to use raw sql query
-#     instead of django ORM.
-#     """
-
-#     query = "SELECT * FROM job_job WHERE salary > %s"
-#     limit = 2000
-
-#     with connection.cursor() as cursor:
-#         cursor.execute(query, [limit])
-#         results = cursor.fetchone()
-
-#     for i in results:
-#         print(i)
-
-#     return Response("this works.")
