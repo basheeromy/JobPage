@@ -52,18 +52,6 @@ class ListCreateJobView(ListCreateAPIView):
         """
         serializer.save(user=self.request.user)
 
-    # def get(self, request, *args, **kwargs):
-    #     """
-    #     Over ride get method to add additional data
-    #     with response.
-    #     """
-    #     filterset = self.pagination_class(request.GET, queryset=self.queryset().order_by('id'))
-    #     count = filterset.qs.count()
-
-
-
-    #     return Response({'job': job, 'candidates': number_of_candidates})
-
 
 class ManageJobView(RetrieveUpdateDestroyAPIView):
     """
