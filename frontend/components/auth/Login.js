@@ -8,22 +8,22 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const router = useRouter
+    const router = useRouter();
 
-    const {loading, error, isAuthenticated} = useContext(AuthContext)
+    const {loading, error, isAuthenticated, login} = useContext(AuthContext)
     useEffect(() => {
         if(error) {
             console.log(error)
         }
 
         if(isAuthenticated && !loading) {
-            router.push('/')
+            router.push('/');
         }
     }, [isAuthenticated, error, loading])
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(email, password)
+        login({email, password})
 
     };
 
