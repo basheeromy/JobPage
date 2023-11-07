@@ -39,8 +39,8 @@ export default async (req, res) => {
                 })
             }
         } catch(error) {
-            res.status(500).json({
-                error: error.response && error.response.data.detail,
+            res.status(error.response.status).json({
+                error: error.response && error.response.data.non_field_errors[0],
             });
         }
     }

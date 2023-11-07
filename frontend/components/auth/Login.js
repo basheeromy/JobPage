@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import AuthContext from '../../context/AuthContext'
 
+import { toast } from 'react-toastify'
+
 const Login = () => {
 
     const [email, setEmail] = useState('')
@@ -13,7 +15,7 @@ const Login = () => {
     const {loading, error, isAuthenticated, login} = useContext(AuthContext)
     useEffect(() => {
         if(error) {
-            console.log(error)
+            toast.error(error);
         }
 
         if(isAuthenticated && !loading) {
