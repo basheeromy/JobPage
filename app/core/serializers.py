@@ -11,7 +11,7 @@ from .models import UserProfile
 
 class UserSerializer(serializers.ModelSerializer):
 
-    resume = serializers.CharField(source='userprofile.resume')
+    resume = serializers.CharField(source='userprofile.resume', read_only=True)
     class Meta:
         model = get_user_model()
         fields = ['id','first_name','last_name','email', 'mobile','resume', 'password']
