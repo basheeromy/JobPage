@@ -50,6 +50,42 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    // Register user
+
+    const register = async ({ firstName, lastName, email,mobile, password }) => {
+        try {
+
+            setLoading(true)
+
+            const res = await axios.post('http://127.0.0.1:8001/api/user/', {
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                mobile,
+                password
+            });
+
+            if (res.data) {
+                console.log(res.data)
+                console.log("this works")
+                setLoading(false);
+                router.push('/login')
+            }
+
+        } catch (error) {
+            setLoading(false);
+            setError(
+                error.response &&
+                (error.response.data)
+            )
+        }
+    }
+
+     // Clear Errors
+  const clearErrors = () => {
+    setError(null);
+  };
+
     // Load user
 
     const loadUser = async () => {
@@ -106,8 +142,11 @@ export const AuthProvider = ({ children }) => {
                 user,
                 error,
                 isAuthenticated,
+                register,
                 login,
                 logout,
+                clearErrors,
+
             }}
         >
             {children}

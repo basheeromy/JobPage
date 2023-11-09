@@ -8,7 +8,7 @@ export default async (req, res) => {
 
         if (!access) {
             return res.status(401).json({
-                error: 'Login required.'
+                message: 'Login required.'
             })
         }
 
