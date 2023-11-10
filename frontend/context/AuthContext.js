@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, createContext } from "react";
 
 import { useRouter } from "next/router";
+import { headers } from "@/next.config";
 
 const AuthContext = createContext();
 
@@ -10,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [error, setError] = useState(null);
+    const [updated, setUpdated] = useState(null);
 
     const router = useRouter();
 
@@ -66,8 +68,6 @@ export const AuthProvider = ({ children }) => {
             });
 
             if (res.data) {
-                console.log(res.data)
-                console.log("this works")
                 setLoading(false);
                 router.push('/login')
             }
@@ -80,6 +80,42 @@ export const AuthProvider = ({ children }) => {
             )
         }
     }
+
+
+    // Update user
+
+    const UpdateProfile = async (obj, access_token) => {
+        try {
+
+            setLoading(true)
+            const updatedObject = Object.fromEntries(
+                Object.entries(obj).filter(([key, value]) => value !== '')
+              );
+
+
+
+            const res = await axios.patch('http://127.0.0.1:8001/api/user/manage/',updatedObject, {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`
+                    }
+                }
+            );
+
+            if (res.data) {
+                setLoading(false);
+                setUpdated(true);
+                setUser(res.data);
+            }
+
+        } catch (error) {
+            setLoading(false);
+            setError(
+                error.response &&
+                (error.response.data)
+            )
+        }
+    }
+
 
      // Clear Errors
   const clearErrors = () => {
@@ -142,7 +178,10 @@ export const AuthProvider = ({ children }) => {
                 user,
                 error,
                 isAuthenticated,
+                updated,
                 register,
+                UpdateProfile,
+                setUpdated,
                 login,
                 logout,
                 clearErrors,
